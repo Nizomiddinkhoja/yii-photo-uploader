@@ -12,6 +12,13 @@ use yii\helpers\Url;
     <div class="m-2">
         <div id="upload-message"></div>
         <button id="generate-pdf" class="btn btn-success" style="display:none;">Генерировать PDF</button>
+
+        <?php if (Yii::$app->session->hasFlash('error')): ?>
+            <div class="alert alert-danger">
+                <?= Yii::$app->session->getFlash('error') ?>
+                <?php Yii::$app->session->removeFlash('error') ?>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -20,7 +27,7 @@ use yii\helpers\Url;
 <script>
     $('#image-upload-form').on('submit', function (e) {
         e.preventDefault();
-        var formData = new FormData(this);
+        const formData = new FormData(this);
         $.ajax({
             url: '<?= Url::to(['image/upload']) ?>',
             type: 'POST',
